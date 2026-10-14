@@ -1,0 +1,94 @@
+<!doctype html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>컬러메이트 홈</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Urbanist:wght@200;300;400;500&family=Gothic+A1:wght@300;400;500;600&display=swap">
+<link rel="stylesheet" href="assets/style.css">
+</head>
+<body>
+<div class="app">
+  <div class="glow white" style="left:150px;top:-120px;width:380px;height:380px"></div>
+  <div class="glow sand" style="left:-140px;top:520px;width:360px;height:360px"></div>
+
+  <main class="screen">
+    <div class="topbar">
+      <div class="eyebrow">Creative X Seongsu</div>
+      <div class="chip" data-lang-label>한국어</div>
+    </div>
+
+    <section class="paper hero" aria-labelledby="heroName">
+      <div class="frost" aria-hidden="true"></div>
+      <div class="hero-head">
+        <h1 class="hero-name" id="heroName" data-home="name">컬러 어드벤처</h1>
+        <div class="hero-side" data-home="side">2026 축제<br>통합 안내</div>
+      </div>
+      <p class="hero-desc" data-home="desc">성수 곳곳 5개 스팟에서 퍼즐을 풀고 색을 모아요</p>
+      <div class="hero-dday" id="dday">D-3</div>
+      <div class="hero-info">
+        <div data-home="info">키트 수령 11–17시<br>리얼월드 성수 1층<br>18시까지 플레이</div>
+        <dl class="facts">
+          <div><dt data-home="f1t">진행</dt><dd data-home="f1">결제 → 시크릿 코드 → 앱 접속 → 리얼월드에서 키트 수령 → 게임 진행</dd></div>
+          <div><dt data-home="f2t">시간<br>비용</dt><dd data-home="f2">키트 수령 11–17시, 18시 종료<br>1인 2만 원</dd></div>
+          <div><dt data-home="f3t">난이도</dt><dd data-home="f3">시크릿 문제 유형 5개<br>(막히면 AI 가이드가 단계별로 안내)</dd></div>
+        </dl>
+      </div>
+      <div class="hero-cta">
+        <a class="pill-btn" href="guide.html"><span data-i18n="ask_guide">AI 가이드에게 묻기</span><span class="arrow" aria-hidden="true">›</span></a>
+      </div>
+    </section>
+
+    <section class="glass lang" aria-label="Language">
+      <div class="lang-head">Language</div>
+      <div class="lang-row">
+        <button type="button" data-lang-pick="ko" aria-pressed="true">한국어</button>
+        <button type="button" data-lang-pick="en" aria-pressed="false" style="font-family:var(--latin)">English</button>
+        <button type="button" data-lang-pick="ja" aria-pressed="false">日本語</button>
+        <button type="button" data-lang-pick="zh" aria-pressed="false">中文</button>
+      </div>
+    </section>
+
+    <p class="note" data-i18n="privacy">선택한 언어는 익명으로 집계되어 외국인 방문 규모 추정에만 쓰입니다.</p>
+
+    <nav class="tabbar" aria-label="메뉴">
+      <a href="guide.html" data-i18n="nav_guide">AI 가이드</a>
+      <a href="index.html" aria-current="page" data-i18n="nav_home">홈</a>
+      <a href="map.html" data-i18n="nav_map">혼잡 지도</a>
+    </nav>
+  </main>
+</div>
+
+<script src="assets/app.js"></script>
+<script>
+(function () {
+  /* 홈 문구 번역 (일본어·중국어는 영어 문구를 함께 사용) */
+  var HOME = {
+    en: { name: 'Color Adventure', side: '2026 festival<br>guide', desc: 'Solve puzzles at 5 spots around Seongsu and collect colors',
+          info: 'Kit pickup 11:00–17:00<br>Realworld Seongsu, 1F<br>Play until 18:00',
+          f1t: 'Steps', f1: 'Pay → secret code → open the game site → pick up the kit at Realworld → play',
+          f2t: 'Time<br>Fee', f2: 'Kit pickup 11:00–17:00, ends 18:00<br>20,000 KRW per person',
+          f3t: 'Level', f3: '5 secret puzzle types<br>(the AI guide helps step by step)' }
+  };
+  var original = {};
+  document.querySelectorAll('[data-home]').forEach(function (el) { original[el.dataset.home] = el.innerHTML; });
+  function renderHome() {
+    var l = CM.getLang(), pack = l === 'ko' ? null : HOME.en;
+    document.querySelectorAll('[data-home]').forEach(function (el) {
+      el.innerHTML = pack && pack[el.dataset.home] ? pack[el.dataset.home] : original[el.dataset.home];
+    });
+  }
+  /* 축제 마지막 날(10월 11일)까지 남은 날 */
+  function renderDday() {
+    var kst = new Date(Date.now() + 9 * 3600000).toISOString().slice(0, 10);
+    var d = Math.round((Date.parse('2026-10-11') - Date.parse(kst)) / 86400000);
+    document.getElementById('dday').textContent = d > 0 ? 'D-' + d : d === 0 ? 'D-Day' : 'Closed';
+  }
+  document.addEventListener('cm:lang', renderHome);
+  document.addEventListener('DOMContentLoaded', function () { renderHome(); renderDday(); });
+})();
+</script>
+</body>
+</html>

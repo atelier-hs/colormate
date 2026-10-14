@@ -1,0 +1,53 @@
+<!doctype html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>컬러메이트 혼잡 지도</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Urbanist:wght@200;300;400;500&family=Gothic+A1:wght@300;400;500;600&display=swap">
+<link rel="stylesheet" href="assets/style.css">
+</head>
+<body>
+<div class="app">
+  <div class="glow white" style="left:200px;top:-100px;width:340px;height:340px"></div>
+
+  <main class="screen" style="gap:12px">
+    <div class="topbar">
+      <div class="eyebrow"><span data-i18n="crowd_now">Crowd now</span> · <span id="crowdTime">--:--</span></div>
+      <div class="chip" id="liveChip" style="font-size:11px;padding:6px 12px;color:var(--quiet)">예시값</div>
+    </div>
+
+    <section class="paper crowd" aria-live="polite">
+      <div class="crowd-area" id="crowdArea">성수카페거리</div>
+      <div class="crowd-count" id="crowdCount">7.0k – 6.5k명</div>
+      <div class="crowd-level" id="crowdLevel">붐빔</div>
+      <div class="bars" id="bars" aria-hidden="true"></div>
+      <div class="bars-label"><span data-i18n="now">지금</span><span data-i18n="forecast">예측</span></div>
+    </section>
+
+    <section class="glass places" id="places" aria-label="프로그램 목록"></section>
+
+    <section class="dark tip">
+      <div style="flex:1;min-width:0">
+        <small data-i18n="tip_head">덜 붐비는 순서</small>
+        <p id="tipText">서울숲 쪽 3·4번 스팟 먼저, 12시 이후 1번 스팟</p>
+      </div>
+      <a class="round-btn" href="guide.html" aria-label="AI 가이드에 묻기">›</a>
+    </section>
+
+    <p class="note" id="sourceNote" style="font-size:10px">혼잡도: 서울 실시간 도시데이터</p>
+
+    <nav class="tabbar" aria-label="메뉴">
+      <a href="guide.html" data-i18n="nav_guide">AI 가이드</a>
+      <a href="index.html" data-i18n="nav_home">홈</a>
+      <a href="map.html" aria-current="page" data-i18n="nav_map">혼잡 지도</a>
+    </nav>
+  </main>
+</div>
+
+<script src="assets/app.js"></script>
+<script src="assets/map.js"></script>
+</body>
+</html>

@@ -1,0 +1,46 @@
+<!doctype html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>컬러메이트 AI 가이드</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Urbanist:wght@200;300;400;500&family=Gothic+A1:wght@300;400;500;600&display=swap">
+<link rel="stylesheet" href="assets/style.css">
+</head>
+<body>
+<div class="app">
+  <div class="glow white" style="left:-120px;top:460px;width:340px;height:340px"></div>
+
+  <main class="screen">
+    <div class="topbar" style="align-items:flex-end">
+      <div>
+        <div class="eyebrow">ColorMate</div>
+        <h1 class="title" data-i18n="nav_guide">AI 가이드</h1>
+      </div>
+      <div class="chip" data-lang-label>한국어</div>
+    </div>
+
+    <section class="glass chat" id="chat" aria-live="polite" aria-label="대화"></section>
+
+    <div class="suggest" id="suggest"></div>
+
+    <form class="composer" id="composer">
+      <label for="ask" class="sr-only">질문 입력</label>
+      <input id="ask" autocomplete="off" data-i18n-placeholder="ask" placeholder="무엇이든 물어보세요">
+      <button type="submit" aria-label="보내기">›</button>
+    </form>
+
+    <nav class="tabbar" aria-label="메뉴">
+      <a href="guide.html" aria-current="page" data-i18n="nav_guide">AI 가이드</a>
+      <a href="index.html" data-i18n="nav_home">홈</a>
+      <a href="map.html" data-i18n="nav_map">혼잡 지도</a>
+    </nav>
+  </main>
+</div>
+
+<script src="assets/app.js"></script>
+<script src="assets/guide.js"></script>
+</body>
+</html>
