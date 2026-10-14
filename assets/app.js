@@ -63,11 +63,31 @@
   /* ---------- 축제 장소 ----------
      area: 서울 실시간 도시데이터 장소명. 열린데이터광장 '서울시 주요 121장소 목록'의 이름과 정확히 같아야 함 */
   const PLACES = [
-    { id: 'play', name: '플레이성수 · 컬러 어드벤처', sub: '리얼월드 성수 1층 · 11–17시 수령', area: '성수카페거리', map: '리얼월드 성수' },
-    { id: 'expo', name: '주제전시 & 퍼포먼스', sub: '에스팩토리 · 10.8–10.11 무료', area: '성수카페거리', map: '에스팩토리 성수' },
-    { id: 'summit', name: '서밋 · 컨퍼런스 & 피치', sub: '에스팩토리 D동 · 10.8–10.11 무료', area: '성수카페거리', map: '에스팩토리 성수 D동' },
-    { id: 'film', name: '필름성수 · 성수메이드', sub: '성수아트홀 · 서울숲 등', area: '서울숲공원', map: '성수아트홀' }
+    { id: 'play', area: '성수카페거리', map: '리얼월드 성수',
+      name: { ko: '플레이성수 · 컬러 어드벤처', en: 'Play Seongsu · Color Adventure', ja: 'プレイ聖水・カラーアドベンチャー', zh: 'Play圣水・色彩冒险' },
+      short: { ko: '컬러 어드벤처', en: 'Color Adventure', ja: 'カラーアドベンチャー', zh: '色彩冒险' },
+      sub: { ko: '리얼월드 성수 1층 · 11–17시 수령', en: 'Realworld Seongsu 1F · kit pickup 11:00–17:00', ja: 'リアルワールド聖水1階・キット受取 11–17時', zh: 'Realworld圣水1楼・11:00–17:00领取套件' } },
+    { id: 'expo', area: '성수카페거리', map: '에스팩토리 성수',
+      name: { ko: '주제전시 & 퍼포먼스', en: 'Main Exhibition & Performance', ja: 'テーマ展示&パフォーマンス', zh: '主题展览与表演' },
+      short: { ko: '주제전시', en: 'Exhibition', ja: 'テーマ展示', zh: '主题展览' },
+      sub: { ko: '에스팩토리 · 10.8–10.11 무료', en: 'S-Factory · Oct 8–11 · Free', ja: 'エスファクトリー・10/8–10/11・無料', zh: 'S-Factory・10月8日–11日・免费' } },
+    { id: 'summit', area: '성수카페거리', map: '에스팩토리 성수 D동',
+      name: { ko: '서밋 · 컨퍼런스 & 피치', en: 'Summit · Conference & Pitch', ja: 'サミット・カンファレンス&ピッチ', zh: '峰会・会议与路演' },
+      short: { ko: '서밋', en: 'Summit', ja: 'サミット', zh: '峰会' },
+      sub: { ko: '에스팩토리 D동 · 10.8–10.11 무료', en: 'S-Factory Bldg D · Oct 8–11 · Free', ja: 'エスファクトリーD棟・10/8–10/11・無料', zh: 'S-Factory D栋・10月8日–11日・免费' } },
+    { id: 'film', area: '서울숲공원', map: '성수아트홀',
+      name: { ko: '필름성수 · 성수메이드', en: 'Film Seongsu · Seongsu Made', ja: 'フィルム聖水・聖水メイド', zh: '电影圣水・圣水制造' },
+      short: { ko: '필름성수', en: 'Film Seongsu', ja: 'フィルム聖水', zh: '电影圣水' },
+      sub: { ko: '성수아트홀 · 서울숲 등', en: 'Seongsu Art Hall · Seoul Forest, etc.', ja: '聖水アートホール・ソウルの森など', zh: '圣水艺术厅・首尔林等' } }
   ];
+  /* 지역 이름 표시용 번역 (API 호출에는 한국어 이름을 그대로 사용) */
+  const AREA_NAMES = {
+    '성수카페거리': { en: 'Seongsu Cafe Street', ja: '聖水カフェ通り', zh: '圣水咖啡街' },
+    '서울숲공원': { en: 'Seoul Forest Park', ja: 'ソウルの森公園', zh: '首尔林公园' }
+  };
+  /* {ko, en, ja, zh} 객체에서 현재 언어 값을 고름. 문자열이면 그대로 */
+  function L(v) { if (!v || typeof v === 'string') return v || ''; return v[getLang()] || v.en || v.ko; }
+  function areaName(area) { const l = getLang(); return l === 'ko' ? area : ((AREA_NAMES[area] && AREA_NAMES[area][l]) || area); }
   const mapUrl = q => 'https://map.naver.com/p/search/' + encodeURIComponent(q);
 
   /* ---------- 서울 실시간 도시데이터 ----------
@@ -110,7 +130,8 @@
   function levelText(level) { const l = getLang(); return (LEVEL_TEXT[l] && LEVEL_TEXT[l][level]) || level; }
   function formatCount(min, max) {
     const k = n => (n / 1000).toFixed(1) + 'k';
-    return `${k(max)} – ${k(min)}명`;
+    const unit = { ko: '명', en: ' people', ja: '人', zh: '人' }[getLang()] || '';
+    return `${k(max)} – ${k(min)}${unit}`;
   }
 
   document.addEventListener('DOMContentLoaded', () => {
@@ -118,5 +139,5 @@
     applyI18n();
   });
 
-  window.CM = { LANGS, getLang, setLang, t, applyI18n, PLACES, mapUrl, getCrowd, levelClass, levelText, formatCount };
+  window.CM = { LANGS, getLang, setLang, t, applyI18n, PLACES, L, areaName, mapUrl, getCrowd, levelClass, levelText, formatCount };
 })();

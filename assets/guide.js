@@ -115,9 +115,10 @@
     const order = ['여유', '보통', '약간 붐빔', '붐빔'];
     const rows = areas.map((a, i) => ({ area: a, d: results[i] })).sort((x, y) => order.indexOf(x.d.level) - order.indexOf(y.d.level));
     const live = rows.every(r => r.d.live);
-    const lines = rows.map(r => `· ${r.area}: ${CM.levelText(r.d.level)}`).join('\n');
+    const lines = rows.map(r => `· ${CM.areaName(r.area)}: ${CM.levelText(r.d.level)}`).join('\n');
+    const top = CM.areaName(rows[0].area);
     const head = { ko: '지금 혼잡도예요.', en: 'Crowd levels right now.', ja: '現在の混雑度です。', zh: '当前拥挤度。' };
-    const tail = { ko: `\n${rows[0].area} 쪽부터 가면 덜 기다려요.`, en: `\nStart with ${rows[0].area} to wait less.`, ja: `\n${rows[0].area}から回ると待ち時間が短いです。`, zh: `\n先去${rows[0].area}可以少排队。` };
+    const tail = { ko: `\n${top} 쪽부터 가면 덜 기다려요.`, en: `\nStart with ${top} to wait less.`, ja: `\n${top}から回ると待ち時間が短いです。`, zh: `\n先去${top}可以少排队。` };
     const src = live ? CM.t('source') : CM.t('source') + CM.t('source_sample');
     add('bot', pick(head) + '\n' + lines + pick(tail), { src });
   }

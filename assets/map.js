@@ -11,16 +11,16 @@
     $('places').innerHTML = CM.PLACES.map(p => {
       const d = crowds[p.area];
       return `<div class="place" aria-current="${p.id === selected}">
-        <button type="button" class="place-pick" data-id="${p.id}"><strong>${esc(p.name)}</strong><span>${esc(p.sub)}</span></button>
+        <button type="button" class="place-pick" data-id="${p.id}"><strong>${esc(CM.L(p.name))}</strong><span>${esc(CM.L(p.sub))}</span></button>
         <span class="level ${CM.levelClass(d.level)}">${esc(CM.levelText(d.level))}</span>
-        <a class="map-link" href="${CM.mapUrl(p.map)}" target="_blank" rel="noopener" aria-label="${esc(p.map)} 지도에서 보기">${MAP_ICON}</a>
+        <a class="map-link" href="${CM.mapUrl(p.map)}" target="_blank" rel="noopener" aria-label="${esc(CM.L(p.name))} map">${MAP_ICON}</a>
       </div>`;
     }).join('');
     $('places').querySelectorAll('.place-pick').forEach(b => b.addEventListener('click', () => { selected = b.dataset.id; render(); }));
   }
 
   function renderCard(place, d) {
-    $('crowdArea').textContent = place.area;
+    $('crowdArea').textContent = CM.areaName(place.area);
     $('crowdCount').textContent = CM.formatCount(d.min, d.max);
     $('crowdLevel').textContent = CM.levelText(d.level);
     const series = [{ max: d.max, now: true }].concat((d.forecast || []).slice(0, 7));
@@ -32,13 +32,15 @@
   function renderTip(crowds) {
     const order = ['여유', '보통', '약간 붐빔', '붐빔'];
     const areas = Object.keys(crowds).sort((a, b) => order.indexOf(crowds[a].level) - order.indexOf(crowds[b].level));
-    const calm = CM.PLACES.filter(p => p.area === areas[0]).map(p => p.name.split(' · ')[0]);
-    const l = CM.getLang();
+    const calm = CM.PLACES.filter(p => p.area === areas[0]).map(p => CM.L(p.short));
+    const first = CM.areaName(areas[0]), last = CM.areaName(areas[areas.length - 1]);
     const text = {
-      ko: `${areas[0]} 쪽(${calm.join(', ')})부터, ${areas[areas.length - 1]}는 나중에`,
-      en: `Start around ${areas[0]} (${calm.join(', ')}), visit ${areas[areas.length - 1]} later`
+      ko: `${first} 쪽(${calm.join(', ')})부터, ${last}는 나중에`,
+      en: `Start around ${first} (${calm.join(', ')}), visit ${last} later`,
+      ja: `${first}（${calm.join('、')}）から回り、${last}は後で`,
+      zh: `先去${first}（${calm.join('、')}），${last}稍后再去`
     };
-    $('tipText').textContent = text[l] || text.en;
+    $('tipText').textContent = text[CM.getLang()] || text.en;
   }
 
   async function render() {
